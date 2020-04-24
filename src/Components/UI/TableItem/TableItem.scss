@@ -1,0 +1,38 @@
+.table-item {
+	display: grid;
+	grid-template-columns: 85% 15%;
+	align-items: center;
+	margin: 0 0 1.5em 0;
+	
+	&__name {
+		color: #363636;
+		font-family: var(--font-medium);
+		font-size: 1.2rem;
+	}
+	
+	&__actions {
+		display: flex;
+		justify-content: space-between;
+	}
+}
+
+.Delete__Modal {
+	top: 20%;
+	left: 30%;
+	right: 30%;
+	bottom: 40%;
+	
+	&-header {
+		color: #1C1C1C;
+		font-size: 2rem;
+		font-family: var(--font-regular);
+		margin: 0.8em 0 0;
+		text-align: center;
+	}
+	
+	&-content {
+		min-width: 30rem;
+		width: 80%;
+		margin: 0 auto;
+	}
+}

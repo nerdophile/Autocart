@@ -1,0 +1,49 @@
+.add-element {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin: 1em 0 2em;
+	
+	&__title {
+		font-family: var(--font-medium);
+		font-size: 1.5rem;
+		letter-spacing: 0.1em;
+		padding: 0;
+		margin: 0;
+		color: var(--primary-color);
+	}
+	
+	> .button__container {
+		min-width: 20%;
+		width: auto;
+		margin: 0;
+	}
+	
+	&__dropdown-container {
+		width: 40%;
+		min-width: max-content;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		
+		& .MuiInputBase-root {
+			width: 100%;
+			min-width: 10rem;
+		}
+		
+		& > .button__container {
+			margin: 0;
+			padding: 0;
+			width: auto;
+			
+			& > button {
+				padding: 1em 1em;
+				font-size: 1rem;
+				width: 100%;
+			}
+		}
+	}
+}
+
+

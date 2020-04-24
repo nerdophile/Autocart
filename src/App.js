@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import './App.scss';
+import {Redirect, Route, Switch} from "react-router";
+import Panel from "./Components/Container/Panel/Panel";
+import Login from "./Components/Container/Login/Login";
+import SnackbarContext from "./Context/SnackbarContext";
+import Snackbar from "@material-ui/core/Snackbar";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	// const [user, setUser] = useState(null);
+
+	const [snackbar, setSnackbar] = useState(false);
+	const [message, setMessage] = useState('');
+	// useEffect(() => {
+	// 	const sub = firebase.auth().onAuthStateChanged((user) => {
+	// 		console.log(user);
+	// 		setUser(user);
+	// 	});
+	// 	return () => {
+	// 		sub();
+	// 	}
+	// }, []);
+
+	return (
+		<div className="App">
+			<Switch>
+				<Route path={"/panel"} render={() => {
+					return <SnackbarContext.Provider value={{snackbar, setSnackbar, message, setMessage}}>
+						<Panel/>
+					</SnackbarContext.Provider>
+				}}/>
+
+				<Route path={"/login"} render={() => {
+					return <Login/>
+				}}/>
+				<Redirect to={"/login"}/>
+			</Switch>
+
+			<Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+					  open={snackbar}
+					  autoHideDuration={2000}
+					  message={message}
+					  onClose={() => {
+						  setSnackbar(false)
+					  }}/>
+		</div>
+	);
 }
 
 export default App;

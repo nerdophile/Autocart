@@ -1,0 +1,87 @@
+.login {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	background-color: var(--primary-color);
+	grid-template-columns: minmax(10px, 1fr) minmax(60%, 800px) minmax(10px, 1fr);
+	
+	&__main {
+		grid-column: 2/3;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	&__title {
+		font-size: 3rem;
+		margin-bottom: 1em;
+	}
+	
+	&__subtitle {
+		font-size: 1.8rem;
+		margin-bottom: 1.5em;
+		
+	}
+	
+	&__title, &__subtitle {
+		color: #FFFFFF;
+		font-family: var(--font-medium);
+	}
+	
+	&__input {
+		width: 50%;
+		line-height: 2;
+		border: none;
+		border-bottom: 1px solid #FFFFFF;
+		background-color: transparent;
+		color: #FFFFFF;
+		font-size: 1.4rem;
+		outline: none;
+		font-family: var(--font-medium);
+		margin-bottom: 2em;
+		
+		
+		&::placeholder {
+			font-size: 1.3rem;
+			letter-spacing: 0.2em;
+			color: #FFFFFF;
+		}
+		
+		&[type="password"] {
+			font-size: 2rem;
+			margin-bottom: 2rem;
+			line-height: 1.4;
+		}
+	}
+	
+	&__button {
+		width: 100%;
+		cursor: pointer;
+		padding: 0.8em 2em;
+		font-family: var(--font-medium);
+		font-size: 1.2rem;
+		border-radius: 0.3em;
+		letter-spacing: 0.3em;
+		margin-top: 2em;
+		outline: none;
+		transition: var(--transistion-bg), var(--transistion-color);
+		color: var(--primary-color);
+		background-color: #FFFFFF;
+		
+		&:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+		
+		&:hover:not(:disabled) {
+			background-color: transparent;
+			color: #FFFFFF;
+			border: 1px solid #FFFFFF;
+		}
+	}
+	
+	
+}

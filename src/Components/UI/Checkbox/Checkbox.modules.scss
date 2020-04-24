@@ -1,0 +1,33 @@
+.checkbox {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	transition: var(--transistion-bg);
+	
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0;
+		padding: 0;
+	}
+	
+	&__checked {
+		background-color: var(--primary-color);
+	}
+	
+	&__unchecked {
+		border: var(--border-primary);
+	}
+	
+	&__label {
+		font-size: 1.1rem;
+		color: var(--accent-text);
+		cursor: pointer;
+	}
+	
+	
+}

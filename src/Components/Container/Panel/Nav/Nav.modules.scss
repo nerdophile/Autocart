@@ -1,0 +1,89 @@
+.nav {
+	height: 100%;
+	display: grid;
+	grid-template-rows: 15% 70% 10%;
+	grid-template-areas: 'logo' 'nav-items' 'sign-out';
+	background-color: #ffffff;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 100%;
+	
+	
+	&__logo {
+		font-size: 1.8rem;
+		font-family: var(--font-medium);
+		text-decoration: none;
+		color: var(--accent-text);
+		grid-area: logo;
+		place-self: flex-start;
+	}
+	
+	
+	&__items {
+		padding: 1em 0;
+		grid-area: nav-items;
+		display: flex;
+		flex-direction: column;
+		height: 35%;
+		align-content: space-between;
+		justify-content: space-between;
+		
+	}
+	
+	&__items > a > p {
+		text-decoration: none;
+		font-family: "JosefinSans-Regular", Montserrat, sans-serif;
+		text-transform: uppercase;
+		font-weight: 400;
+		color: #8B8B8B;
+		letter-spacing: 0.3em;
+		font-size: 1rem;
+		transition: color ease-in-out 200ms;
+		outline: none;
+		
+		&:hover {
+			color: var(--primary-color);
+			text-decoration: none;
+			font-family: "JosefinSans-Regular", Montserrat, sans-serif;
+			text-transform: uppercase;
+			font-weight: 400;
+			letter-spacing: 0.3em;
+			font-size: 1rem;
+			transition: color ease-in-out 200ms;
+			outline: none;
+		}
+		
+	}
+	
+	&__items > &__item-selected > p {
+		color: var(--primary-color);
+		text-decoration: none;
+		font-family: "JosefinSans-Regular", Montserrat, sans-serif;
+		text-transform: uppercase;
+		font-weight: 400;
+		letter-spacing: 0.3em;
+		font-size: 1rem;
+		transition: color ease-in-out 200ms;
+		outline: none;
+		
+	}
+	
+	
+	&__sign-out {
+		grid-area: sign-out;
+		align-self: center;
+		text-decoration: none;
+		color: #8B8B8B;
+		font-size: 1.2rem;
+		transition: color ease 200ms;
+		outline: none;
+		cursor: pointer;
+		font-family: var(--font-medium);
+		
+		&:hover {
+			color: var(--primary-color);
+		}
+	}
+	
+	
+}
