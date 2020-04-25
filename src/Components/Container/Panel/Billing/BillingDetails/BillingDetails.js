@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from "react-router";
 import gql from "graphql-tag";
-import {useSubscription} from "@apollo/react-hooks";
+import {useMutation, useSubscription} from "@apollo/react-hooks";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Empty from "../../../../UI/Empty/Empty";
 
 import './BillingDetails.scss';
+import SnackbarContext from "../../../../../Context/SnackbarContext";
 
 
 const GetCartProductsByBarcode = gql`
@@ -26,6 +27,16 @@ const GetCartProductsByBarcode = gql`
     }
 `;
 
+
+const ClearCart = gql`
+    mutation ClearCart($barcode: String!) {
+        delete_CartProducts(where: { Cart: {barcode: {_eq: $barcode}}}) {
+            affected_rows
+        }
+    }
+
+`;
+
 const BillingDetails = (props) => {
 
 	const {barcode} = useParams();
@@ -37,8 +48,30 @@ const BillingDetails = (props) => {
 		}
 	});
 
+	const [clearCartMutation] = useMutation(ClearCart);
+
 	const [weightSum, setWeightSum] = useState(0);
 	const [priceSum, setPriceSum] = useState(0);
+	const [mutationLoading, setMutationLoading] = useState(false);
+	const {setSnackbar, setMessage} = useContext(SnackbarContext);
+
+
+	const clearCart = () => {
+		setMutationLoading(true);
+		clearCartMutation({
+			variables: {
+				barcode
+			}
+		}).then(() => {
+			setMessage("Cart Cleared Successfully");
+			setSnackbar(true);
+			setMutationLoading(false);
+		}).catch((error) => {
+			setMessage(error.message);
+			setSnackbar(true);
+			setMutationLoading(false);
+		})
+	};
 
 
 	useEffect(() => {
@@ -83,6 +116,7 @@ const BillingDetails = (props) => {
 								})
 							}
 
+
 							<hr className="billing__rule"/>
 							<div className="billing__total-root ">
 								<div className="billing__total-container">
@@ -95,15 +129,22 @@ const BillingDetails = (props) => {
 								</div>
 							</div>
 
-							<div className="billing__total-root ">
-								<button
-									type="button"
-									className="billing__button billing__button-active">clear cart
-								</button>
-								<button
-									type="button"
-									className="billing__button billing__button-inactive">payment
-								</button>
+							<div className="billing__total-root " style={{marginTop: '4em'}}>
+								{!mutationLoading ? <>
+										<button
+											type="button"
+											onClick={clearCart}
+											className="billing__button billing__button-active">clear cart
+										</button>
+										<button
+											type="button"
+											className="billing__button billing__button-inactive">payment
+										</button>
+									</> :
+									<div className="spinner-container ">
+										<CircularProgress size={40} thickness={4}/>
+									</div>
+								}
 							</div>
 
 						</>

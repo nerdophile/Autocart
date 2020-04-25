@@ -1,0 +1,61 @@
+.cust {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	background-color: #FFFFFF;
+	grid-template-columns: minmax(10px, 1fr) minmax(40%, 500px) minmax(10px, 1fr);
+	
+	&__main {
+		grid-column: 2/3;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		//align-items: center;
+		//justify-content: center;
+		padding: 1.5em 1em;
+	}
+	
+	&__header {
+		display: flex;
+		width: 100%;
+		align-items: baseline;
+		justify-content: space-between;
+	}
+	
+	&__my-cart {
+		font-size: 1.5rem;
+	}
+	
+	&__total-price {
+		font-size: 1.1rem;
+	}
+	
+	&__my-cart, &__total-price {
+		color: var(--primary-color);
+		font-family: var(--font-medium);
+	}
+	
+	&__card {
+		box-shadow: var(--shadow);
+		width: 100%;
+		min-height: 10rem;
+		height: auto;
+		margin: 1em 0;
+		padding: 1em;
+	}
+	
+	&__card-subtitle {
+		font-family: var(--font-medium);
+		color: #868686;
+		font-size: 0.85rem;
+		margin: 0.6em 0 0;
+	}
+	
+	&__card-detail {
+		font-family: var(--font-medium);
+		color: var(--primary-color);
+		font-size: 1.2rem;
+		margin: 0.4em 0 0.6em 0;
+	}
+}

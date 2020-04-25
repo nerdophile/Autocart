@@ -4,6 +4,7 @@ import firebase from "../../../FirebaseConfig";
 import Snackbar from "@material-ui/core/Snackbar";
 import {useHistory} from "react-router";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {NavLink} from "react-router-dom";
 
 const Login = props => {
 
@@ -57,7 +58,7 @@ const Login = props => {
 				<div className="d-flex justify-content-center" style={{width: '30%'}}>
 
 					{loading ? <CircularProgress size={40} thickness={4.5}
-						color={"secondary"}/> :
+												 color={"secondary"}/> :
 						<button
 							type="button"
 							className="login__button"
@@ -86,8 +87,11 @@ const Login = props => {
 					}}
 				/>}
 			</div>
-
-
+			<div className="login__customer">
+				<NavLink to={"/customer"} className="login__customer">
+					Are you a customer ?
+				</NavLink>
+			</div>
 		</div>
 	);
 };

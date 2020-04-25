@@ -1,4 +1,4 @@
-.login {
+.customer {
 	width: 100%;
 	height: 100%;
 	display: grid;
@@ -19,73 +19,59 @@
 		grid-column: 3/3;
 	}
 	
-	&__title {
+	&__header {
 		font-size: 3rem;
-		margin-bottom: 1em;
+		cursor: pointer;
+		color: #FFFFFF;
+		padding: 0;
+		margin: 0 0 3rem 0;
+		transition: var(--transistion-color);
+		font-family: var(--font-medium);
 	}
 	
-	&__subtitle {
-		font-size: 1.8rem;
-		margin-bottom: 1.5em;
-		
+	
+	&__login {
+		grid-column: 3/3;
 	}
 	
-	&__customer {
+	&__link {
 		font-size: 1.2rem;
 		text-align: right;
 		cursor: pointer;
-		margin: 1.2em 1em 0 0;
+		color: #FFFFFF;
+		padding: 0;
+		margin: 1.2rem 0 0 0;
 		transition: var(--transistion-color);
+		font-family: var(--font-medium);
 		
 		&:hover {
 			color: #9f9f9f;
 		}
 	}
 	
-	&__title, &__subtitle, &__customer {
-		color: #FFFFFF;
+	&__text {
 		font-family: var(--font-medium);
-	}
-	
-	&__input {
-		width: 50%;
-		line-height: 2;
-		border: none;
-		border-bottom: 1px solid #FFFFFF;
-		background-color: transparent;
-		color: #FFFFFF;
-		font-size: 1.4rem;
-		outline: none;
-		font-family: var(--font-medium);
-		margin-bottom: 2em;
-		
-		
-		&::placeholder {
-			font-size: 1.3rem;
-			letter-spacing: 0.2em;
-			color: #FFFFFF;
-		}
-		
-		&[type="password"] {
-			font-size: 2rem;
-			margin-bottom: 2rem;
-			line-height: 1.4;
-		}
+		color: var(--primary-color);
+		font-size: 2rem;
+		padding: 0;
+		margin: 1em 0;
+		text-align: center;
 	}
 	
 	&__button {
 		width: 100%;
 		cursor: pointer;
-		padding: 0.8em 2em;
+		padding: 0.7em 2em;
 		font-family: var(--font-medium);
 		font-size: 1.2rem;
-		border-radius: 0.3em;
-		letter-spacing: 0.3em;
-		margin-top: 2em;
+		border-radius: 0.5em;
+		letter-spacing: 0.1em;
+		margin: 0;
 		outline: none;
 		transition: var(--transistion-bg), var(--transistion-color);
 		color: var(--primary-color);
 		background-color: #FFFFFF;
+		min-width: min-content;
 		
 		&:disabled {
 			opacity: 0.6;
@@ -98,6 +84,4 @@
 			border: 1px solid #FFFFFF;
 		}
 	}
-	
-	
 }
