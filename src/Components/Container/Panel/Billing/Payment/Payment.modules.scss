@@ -1,0 +1,13 @@
+.payment {
+	
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+
+	
+	&__label {
+		font-size: 1.2rem;
+		color: var(--primary-color);
+		padding: 0;
+		margin: 1em 0;
+	}
+}

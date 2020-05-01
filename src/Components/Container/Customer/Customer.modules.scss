@@ -19,6 +19,12 @@
 		grid-column: 3/3;
 	}
 	
+	&__image {
+		width: 12rem;
+		height: auto;
+		cursor: pointer;
+	}
+	
 	&__header {
 		font-size: 3rem;
 		cursor: pointer;

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import gql from "graphql-tag";
 import {useMutation, useSubscription} from "@apollo/react-hooks";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -48,6 +48,8 @@ const BillingDetails = (props) => {
 		}
 	});
 
+
+	const history = useHistory();
 	const [clearCartMutation] = useMutation(ClearCart);
 
 	const [weightSum, setWeightSum] = useState(0);
@@ -90,7 +92,7 @@ const BillingDetails = (props) => {
 		<div className="container-main">
 			<div className="container-box billing">
 				{productsLoading ?
-					<div className="spinner-container h-50">
+					<div className="spinner-container h-100">
 						<CircularProgress size={40} thickness={4}/>
 					</div> :
 					products['CartProducts'].length > 0 ?
@@ -138,6 +140,10 @@ const BillingDetails = (props) => {
 										</button>
 										<button
 											type="button"
+											onClick={() => {
+												history.push(`/panel/payment/${barcode}`)
+											}
+											}
 											className="billing__button billing__button-inactive">payment
 										</button>
 									</> :

@@ -18,6 +18,13 @@
 	top: 0;
 	right: 0;
 	bottom: 0;
+}
+
+.loading-blue {
+	fill: var(--primary-color);
+}
+
+.loading-white {
 	fill: #FFFFFF;
 }
 
@@ -88,6 +95,7 @@
 		transform: rotate(1turn);
 	}
 }
+
 //
 @keyframes dbrScanner-scanlight {
 	from {

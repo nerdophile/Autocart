@@ -1,17 +1,20 @@
 import './CustomerCart.modules.scss';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import {useParams} from "react-router";
 import gql from "graphql-tag";
-import {useSubscription} from "@apollo/react-hooks";
+import {useApolloClient, useMutation, useSubscription} from "@apollo/react-hooks";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Webcam from "../../Panel/Billing/Webcam/Webcam";
+import CustomerCard from "./CustomerCard/CustomerCard";
+import SnackbarContext from "../../../../Context/SnackbarContext";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 // import Empty from "../../../../UI/Empty/Empty";
 
 
 const GetCartProductsByBarcode = gql`
     subscription GetCartProductsByBarcode($barcode: String!) {
-        CartProducts(where: {Cart: {barcode: {_eq: $barcode}}}, order_by: {createdAt: asc}) {
+        CartProducts(where: {Cart: {barcode: {_eq: $barcode}}}, order_by: {createdAt: desc}) {
             id
             Product {
                 id
@@ -27,13 +30,54 @@ const GetCartProductsByBarcode = gql`
     }
 `;
 
+const ProductBarcodeCheck = gql`
+    query ProductBarcodeCheck($barcode: String!) {
+        Products(where: {barcode: {_eq: $barcode}}) {
+            id
+            barcode
+            name
+        }
+    }
+`;
+
+const GetCartProductAggregate = gql`
+    query GetCartProductAggregate($cartId: Int!, $productId: Int!) {
+        CartProducts_aggregate(where: {cartId: {_eq: $cartId}, productId: {_eq: $productId}}) {
+            aggregate {
+                count
+            }
+        }
+    }
+`;
+
+const InsertProductToCart = gql`
+    mutation InsertProductToCart($cartId: Int!, $productId: Int!) {
+        insert_CartProducts(objects: {cartId: $cartId, productId: $productId}) {
+            affected_rows
+        }
+    }
+`;
+
+const DeleteProductFromCart = gql`
+    mutation InsertProductToCart($cartId: Int!, $productId: Int!) {
+        delete_CartProducts(where:{productId: {_eq: $productId} , cartId: {_eq: $cartId}}) {
+            affected_rows
+        }
+    }
+`;
 
 const CustomerCart = (props) => {
 
-	const {barcode} = useParams();
-	console.log(barcode);
+	const {barcode, id: cartId} = useParams();
+	const [queryLoading, setQueryLoading] = useState(false);
+	const {setSnackbar, setMessage} = useContext(SnackbarContext);
 
-	const {data: products, error: productsError, loading: productsLoading} = useSubscription(GetCartProductsByBarcode, {
+	const [insertProductToCart] = useMutation(InsertProductToCart)
+	const [deleteProductFromCart] = useMutation(DeleteProductFromCart)
+
+	const client = useApolloClient();
+
+	const {data: products, loading: productsLoading} = useSubscription(GetCartProductsByBarcode, {
 		variables: {
 			barcode
 		}
@@ -50,33 +94,86 @@ const CustomerCart = (props) => {
 	}, [products, productsLoading]);
 
 
+	const appendMessage = message => {
+		setQueryLoading(true);
+		client.query({
+			query: ProductBarcodeCheck,
+			variables: {
+				barcode: message
+			}
+		}).then(({data: product}) => {
+			if (product['Products'].length > 0) {
+				client.query({
+					query: GetCartProductAggregate,
+					variables: {
+						cartId,
+						productId: product['Products'][0].id
+					},
+					fetchPolicy: "no-cache"
+				}).then(({data: aggregate}) => {
+					if (aggregate['CartProducts_aggregate']['aggregate']['count'] > 0) {
+						// console.log('remove');
+						deleteProductFromCart({
+							variables: {
+								cartId,
+								productId: product['Products'][0].id
+							}
+						}).then((data) => {
+							setQueryLoading(false);
+							setSnackbar(true);
+							setMessage(`Product deleted from cart successfully`);
+						});
+					} else {
+						// console.log('insert');
+						insertProductToCart({
+							variables: {
+								cartId,
+								productId: product['Products'][0].id
+							}
+						}).then((data) => {
+							setQueryLoading(false);
+							setSnackbar(true);
+							setMessage(`Product inserted to cart successfully`);
+						});
+					}
+				})
+			} else {
+				setQueryLoading(false);
+				setSnackbar(true);
+				setMessage(`Product with that barcode doesn't exists`);
+			}
+		})
+	};
+
+
 	return (
 		<div className="cust">
 			<div className="cust__main">
+
 				{!productsLoading ?
 					<>
-						<div className="cust__header" style={{marginBottom: "2em"}}>
-							<p className="cust__my-cart">My Cart</p>
-							<p className="cust__total-price">{priceSum}/-</p>
-						</div>
+						<>
+							<div className="cust__header" style={{marginBottom: "2em"}}>
+								<p className="cust__my-cart">My Cart</p>
+								<p className="cust__total-price">{priceSum}/-</p>
+							</div>
+
+							{queryLoading ?
+								<div className="spinner-container " style={{minHeight: '200px'}}>
+									<CircularProgress
+										size={50}
+										thickness={6}/>
+								</div> :
+								<Webcam appendMessage={appendMessage} blue={true}/>}
+						</>
 
 						{
 							products['CartProducts'].map((product, index) => {
-								return (<div className="cust__card"
-											 key={index + new Date().toISOString()}>
-									<p className="cust__card-subtitle">product</p>
-									<p className="cust__card-detail">{product["Product"].name.toLowerCase()}</p>
-									<div className="cust__header w-75">
-										<div>
-											<p className="cust__card-subtitle">price</p>
-											<p className="cust__card-detail">{product["Product"].price}</p>
-										</div>
-										<div>
-											<p className="cust__card-subtitle">weight</p>
-											<p className="cust__card-detail">{product["Product"].weight}</p>
-										</div>
-									</div>
-								</div>)
+								return (
+									<CustomerCard key={index + new Date().toISOString()}
+												  product={product}
+									/>
+								)
 							})
 						}
 					</>

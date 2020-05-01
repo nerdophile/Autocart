@@ -20,7 +20,7 @@ const Billing = (props) => {
 		<div className="container-main">
 			<div className="container-box scan">
 				<> {showScanner ?
-					<Webcam appendMessage={appendMessage}/>
+					<Webcam appendMessage={appendMessage} blue={true}/>
 					: <>
 						<img src={scan}
 							 className="scan__image"
@@ -28,7 +28,6 @@ const Billing = (props) => {
 						<p className="customer__text">Scan barcode to start billing</p>
 					</>
 				}
-
 					<div className="w-25">
 						<PrimaryButton label={showScanner ? 'exit' : `scan`}
 									   active={true}

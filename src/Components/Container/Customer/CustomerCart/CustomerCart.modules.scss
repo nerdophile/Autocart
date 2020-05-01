@@ -14,6 +14,11 @@
 		//align-items: center;
 		//justify-content: center;
 		padding: 1.5em 1em;
+		
+		> .component-barcode-scanner {
+			min-width: 100%;
+			min-height: 200px;
+		}
 	}
 	
 	&__header {
@@ -28,13 +33,14 @@
 	}
 	
 	&__total-price {
-		font-size: 1.1rem;
+		font-size: 1.8rem;
 	}
 	
 	&__my-cart, &__total-price {
 		color: var(--primary-color);
 		font-family: var(--font-medium);
 	}
+	
 	
 	&__card {
 		box-shadow: var(--shadow);

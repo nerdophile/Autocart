@@ -32,15 +32,24 @@ function App() {
 					</SnackbarContext.Provider>
 				}}/>
 				<Route exact={true} path={"/customer"} render={() => {
-					return <Customer/>
+					return <SnackbarContext.Provider value={{snackbar, setSnackbar, message, setMessage}}>
+						<Customer/>
+					</SnackbarContext.Provider>
+
 				}}/>
 
 				<Route path={"/login"} render={() => {
-					return user ? <Panel/> : <Login/>
+					return <SnackbarContext.Provider value={{snackbar, setSnackbar, message, setMessage}}>
+						{user ? <Panel/> : <Login/>}
+					</SnackbarContext.Provider>
+
+
 				}}/>
 
-				<Route exact={true} path="/customer/:barcode">
-					<CustomerCart/>
+				<Route exact={true} path="/customer/:barcode/:id">
+					<SnackbarContext.Provider value={{snackbar, setSnackbar, message, setMessage}}>
+						<CustomerCart/>
+					</SnackbarContext.Provider>}
 				</Route>
 				<Redirect to={"/login"}/>
 			</Switch>

@@ -8,6 +8,7 @@ import Product from "./Product/Product";
 import Cart from "./Cart/Cart";
 import Category from "./Category/Category";
 import BillingDetails from "./Billing/BillingDetails/BillingDetails";
+import Payment from "./Billing/Payment/Payment";
 
 
 const Panel = (props) => {
@@ -23,8 +24,12 @@ const Panel = (props) => {
 						<Billing/>
 					</Route>
 
-					<Route  exact={true} path="/panel/billing/:barcode">
+					<Route exact={true} path="/panel/billing/:barcode">
 						<BillingDetails/>
+					</Route>
+
+					<Route exact={true} path="/panel/payment/:barcode">
+						<Payment/>
 					</Route>
 
 					<Route exact={true} path="/panel/products">
